@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OurApp - Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen flex flex-col font-sans bg-white">
+  
+  <header class="bg-slate-900 text-white py-4 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-tight text-white"><a href="/">OurApp</a></h1>
+      
+      <div class="flex items-center gap-4">
+        <button class="text-white hover:text-slate-300 transition-colors" title="Search">
+          <i class="fas fa-search text-lg"></i>
+        </button>
+        <button class="text-white hover:text-slate-300 transition-colors header-chat-icon" title="Chat">
+          <i class="fas fa-comment text-lg"></i>
+        </button>
+        <a href="/profile/<%= user.username %>" class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center hover:bg-blue-500 transition-colors" title="My Profile">
+          <i class="fas fa-user text-sm text-white"></i>
+        </a>
+        <a href="/create-post" class="bg-green-600 hover:bg-green-500 text-white px-4 py-1.5 rounded-md text-sm font-medium transition-colors">
+          Create Post
+        </a>
+        <form action="/logout" method="POST" class="inline m-0">
+          <button type="submit" class="bg-slate-500 hover:bg-slate-400 text-white px-4 py-1.5 rounded-md text-sm font-medium transition-colors">
+            Sign Out
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl w-full mx-auto pt-10 px-6">
+    <!-- GLOBAL FEED SECTION -->
+<div class="container mx-auto max-w-2xl py-8 mt-10">
+  <h2 class="text-2xl font-bold mb-6 text-gray-200">Global Feed</h2>
+
+  <% if (posts && posts.length > 0) { %>
+    <!-- Loop through every post in the database -->
+    <% posts.forEach(function(post) { %>
+      
+      <!-- Post Card -->
+      <div class="bg-white border border-gray-300 rounded-lg shadow-md mb-8 overflow-hidden">
+        
+        <!-- Post Header -->
+        <div class="flex items-center px-4 py-3 border-b border-gray-700 bg-gray-800">
+          <a href="/profile/<%= post.author.username %>" class="flex items-center group">
+            <!-- Dynamic Avatar -->
+            <img class="w-8 h-8 rounded-full mr-3 shadow-sm group-hover:opacity-80 transition-opacity" src="<%= post.author.avatar %>" alt="<%= post.author.username %>">
+            <!-- Dynamic Username -->
+            <span class="font-bold text-sm text-gray-200 group-hover:text-blue-400 transition-colors"><%= post.author.username %></span>
+          </a>
+        </div>
+
+
+        <!-- Post Content -->
+        <div class="px-5 py-5">
+          <a href="/post/<%= post._id %>" class="hover:text-blue-600 transition-colors">
+            <h3 class="font-bold text-xl mb-2 text-gray-900"><%= post.title %></h3>
+          </a>
+          <p class="text-gray-700 text-sm leading-relaxed"><%= post.body %></p>
+        </div>
+
+        <div class="px-5 py-3 border-t border-gray-100 flex gap-6 text-gray-600 bg-gray-50">
+          <button class="hover:text-red-500 transition-colors flex items-center gap-2" title="Like">
+            <i class="far fa-heart text-xl"></i>
+          </button>
+          
+          <button class="hover:text-blue-500 transition-colors flex items-center gap-2" title="Comment">
+            <i class="far fa-comment text-xl"></i>
+          </button>
+
+          <button class="hover:text-green-500 transition-colors flex items-center gap-2" title="Send">
+            <i class="far fa-paper-plane text-xl"></i>
+          </button>
+        </div>
+        
+      </div>
+
+    <% }) %>
+  <% } else { %>
+    
+    <div class="text-center py-12 bg-gray-800 rounded-lg border border-gray-700">
+      <h2 class="text-xl text-gray-400">The global feed is empty. Be the first to create a post!</h2>
+    </div>
+
+  <% } %>
+</div>
+  </main>
+
+
+  <footer class="py-8 text-center text-slate-400 text-sm border-t border-slate-100 mt-auto">
+    <p>Copyright © 2026 OurApp. All rights reserved.</p>
+  </footer>
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/main-bundled.js"></script>
+</body>
+</html>

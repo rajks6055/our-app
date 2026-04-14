@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OurApp - Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen flex flex-col font-sans bg-slate-50">
+  
+  <header class="bg-slate-900 text-white py-4 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-tight text-white"><a href="/">OurApp</a></h1>
+      
+      <div class="flex items-center gap-4">
+        <button class="text-white hover:text-slate-300 transition-colors" title="Search"><i class="fas fa-search text-lg"></i></button>
+        <button class="text-white hover:text-slate-300 transition-colors" title="Chat"><i class="fas fa-comment text-lg"></i></button>
+        <a href="/profile/<%= user.username %>" class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center hover:bg-blue-500 transition-colors" title="My Profile">
+          <i class="fas fa-user text-sm text-white"></i>
+        </a>
+        <a href="/create-post" class="bg-green-600 hover:bg-green-500 text-white px-4 py-1.5 rounded-md text-sm font-medium transition-colors">Create Post</a>
+        <form action="/logout" method="POST" class="inline m-0">
+          <button type="submit" class="bg-slate-500 hover:bg-slate-400 text-white px-4 py-1.5 rounded-md text-sm font-medium transition-colors">Sign Out</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl w-full mx-auto pt-10 px-6">
+    
+    <div class="flex items-center mb-6">
+      <img class="w-10 h-10 rounded-full border border-slate-300" src="https://gravatar.com/avatar/placeholder?s=128&d=identicon" alt="Profile Picture">
+      <h2 class="text-3xl font-medium ml-3 text-slate-800"><%= profileUsername %></h2>
+    </div>
+
+    <div class="flex border-b border-slate-300 text-sm mb-6">
+      <a href="#" class="px-4 py-2 border border-b-0 border-slate-300 rounded-t text-slate-700 font-medium bg-slate-50 -mb-px">
+        Posts: 0
+      </a>
+      <a href="#" class="px-4 py-2 text-blue-600 hover:text-blue-800 transition-colors">
+        Followers: 0
+      </a>
+      <a href="#" class="px-4 py-2 text-blue-600 hover:text-blue-800 transition-colors">
+        Following: 0
+      </a>
+    </div>
+    <!-- USER'S POSTS SECTION -->
+<div class="container mx-auto max-w-2xl py-8 mt-5">
+  <h2 class="text-xl font-bold mb-4 text-gray-200">Posts by <%= profileUsername %></h2>
+
+  <div class="flex flex-col gap-4">
+    <% if (posts.length > 0) { %>
+      <% posts.forEach(function(post) { %>
+        
+        <!-- Individual Post Card -->
+        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 flex justify-between items-center shadow-sm hover:border-gray-500 transition-colors">
+          
+          <div>
+            <a href="/post/<%= post._id %>" class="text-lg font-bold text-blue-400 hover:text-blue-300 hover:underline">
+              <%= post.title %>
+            </a>
+            <!-- Safe fallback in case date isn't formatted yet -->
+            <span class="text-gray-400 text-xs block mt-1">
+              Posted on <%= post.createdDate ? post.createdDate.toLocaleDateString() : "Recently" %>
+            </span>
+          </div>
+
+          <!-- ✨ THE MAGIC TRICK: Security Check ✨ -->
+          <!-- Only render these buttons if the person looking at the screen owns the profile -->
+          <% if (currentUser === profileUsername) { %>
+            <div class="flex gap-3 text-lg">
+              
+              <!-- EDIT BUTTON -->
+              <a href="/post/<%= post._id %>/edit" class="text-green-500 hover:text-green-400" title="Edit Post">
+                <i class="fas fa-edit"></i>
+              </a>
+              
+              <!-- DELETE BUTTON -->
+              <form action="/post/<%= post._id %>/delete" method="POST" class="inline m-0 p-0">
+                <button type="submit" class="text-red-500 hover:text-red-400 bg-transparent border-none cursor-pointer" title="Delete Post">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </form>
+
+            </div>
+          <% } %>
+
+        </div>
+
+      <% }) %>
+    <% } else { %>
+      <div class="text-gray-400 p-4 bg-gray-900 rounded border border-gray-800 text-center">
+        This user hasn't created any posts yet.
+      </div>
+    <% } %>
+  </div>
+</div>
+
+  </main>
+
+  <footer class="py-8 text-center text-slate-400 text-sm border-t border-slate-200 bg-white mt-auto">
+    <p>Copyright © 2026 OurApp. All rights reserved.</p>
+  </footer>
+  
+</body>
+</html>
