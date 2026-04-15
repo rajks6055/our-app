@@ -20,27 +20,32 @@ A full-stack, real-time social networking application built with Node.js, Expres
 
 ---
 
-## 🧠 The Tech Flow (How it Works)
+## 🗺️ The Tech Flow (How it Works)
 
 OurApp uses a modern Model-View-Controller (MVC) architecture combined with event-driven WebSockets.
 
-1. **The Database Layer (MongoDB):** * Acts as the single source of truth for persistent data. It securely stores `Users`, `Posts`, and `Sessions`. 
-2. **The Server Layer (Node & Express):** * Handles incoming HTTP requests, performs security/authorization checks, communicates with MongoDB, and dynamically injects data into the EJS templates using `res.locals`.
-3. **The Real-Time Engine (Socket.io):**
-   * Express shares its session data directly with Socket.io. When a user types a message in the chat, the frontend *emits* it to the server. The server attaches the user's secure identity (username/avatar) and *broadcasts* it to all other connected clients instantly.
-4. **The Client Layer (Vanilla JS & Tailwind):**
-   * JavaScript modules capture user interactions (like clicking "Edit" or "Send Message") without heavy frontend frameworks. Tailwind CSS handles the layout, animations (like the sliding chat box), and UI components.
+1. **The Database Layer (MongoDB):** Acts as the single source of truth for persistent data. It securely stores `Users`, `Posts`, and `Sessions`.
+2. **The Server Layer (Node & Express):** Handles incoming HTTP requests, performs security/authorization checks, communicates with MongoDB, and dynamically injects data into the EJS templates using `res.locals`.
+3. **The Real-Time Engine (Socket.io):** Express shares its session data directly with Socket.io. When a user types a message in the chat, the frontend *emits* it to the server. The server attaches the user's secure identity (username/avatar) and *broadcasts* it to all other connected clients instantly.
+4. **The Client Layer (Vanilla JS & Tailwind):** JavaScript modules capture user interactions (like clicking "Edit" or "Send Message") without heavy frontend frameworks. Tailwind CSS handles the layout, animations (like the sliding chat box), and UI components.
 
+### System Architecture Diagram
+
+```mermaid
 graph TD
-    A[User Browser] -->|HTTP Request| B(Express Server)
-    A -->|Socket.io Emit| C{Socket Engine}
-    B -->|Query/Update| D[(MongoDB)]
-    D -->|Return Data| B
-    B -->|Render EJS| A
-    C -->|Broadcast Message| A
-    A -->|Cache| E[LocalStorage]
----
-
+    A[💻 User Browser] -->|1. HTTP Request| B(⚙️ Express Server)
+    A -->|2. Socket Emit| C{⚡ Socket Engine}
+    B -->|3. Query/Update| D[(🍃 MongoDB)]
+    D -->|4. Return Data| B
+    B -->|5. Render EJS| A
+    C -->|6. Broadcast| A
+    A -->|Cache| E[💾 LocalStorage]
+    
+    style A fill:#1e293b,color:#fff,stroke:#3b82f6,stroke-width:2px
+    style B fill:#0f172a,color:#fff,stroke:#8b5cf6,stroke-width:2px
+    style C fill:#0f172a,color:#fff,stroke:#ec4899,stroke-width:2px
+    style D fill:#0f172a,color:#fff,stroke:#10b981,stroke-width:2px
+    style E fill:#0f172a,color:#fff,stroke:#f59e0b,stroke-width:2px
 ## 🚀 Installation & Setup
 
 To run this project locally, you will need **Node.js** installed on your machine and your own **MongoDB** connection string (either a local MongoDB server or a free MongoDB Atlas cloud cluster).
