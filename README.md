@@ -46,6 +46,7 @@ graph TD
     style C fill:#0f172a,color:#fff,stroke:#ec4899,stroke-width:2px
     style D fill:#0f172a,color:#fff,stroke:#10b981,stroke-width:2px
     style E fill:#0f172a,color:#fff,stroke:#f59e0b,stroke-width:2px
+```
 ## 🚀 Installation & Setup
 
 To run this project locally, you will need **Node.js** installed on your machine and your own **MongoDB** connection string (either a local MongoDB server or a free MongoDB Atlas cloud cluster).
@@ -54,3 +55,15 @@ To run this project locally, you will need **Node.js** installed on your machine
 ```bash
 git clone [https://github.com/rajks6055/OurApp.git](https://github.com/YourUsername/OurApp.git)
 cd OurApp
+```
+### 3. Run the Application
+npm run watch
+
+### 🔮 Future Roadmap
+[ ] 1-on-1 Private Messaging (Socket.io Rooms)
+
+[ ] Image Uploads via Cloudinary / AWS S3
+
+[ ] Post Interactions (Likes and Comments)
+
+[ ] Infinite Scroll for Global Feed
