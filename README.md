@@ -31,6 +31,14 @@ OurApp uses a modern Model-View-Controller (MVC) architecture combined with even
 4. **The Client Layer (Vanilla JS & Tailwind):**
    * JavaScript modules capture user interactions (like clicking "Edit" or "Send Message") without heavy frontend frameworks. Tailwind CSS handles the layout, animations (like the sliding chat box), and UI components.
 
+graph TD
+    A[User Browser] -->|HTTP Request| B(Express Server)
+    A -->|Socket.io Emit| C{Socket Engine}
+    B -->|Query/Update| D[(MongoDB)]
+    D -->|Return Data| B
+    B -->|Render EJS| A
+    C -->|Broadcast Message| A
+    A -->|Cache| E[LocalStorage]
 ---
 
 ## 🚀 Installation & Setup
